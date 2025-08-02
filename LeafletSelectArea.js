@@ -18,6 +18,7 @@ function LeafletSelectArea(map,a,b,c){
 		if((typeof(c)==="object")&&!Array.isArray(c)){objects=objects+1;config=c};
 	}
 	if((arrays>1)||(int>1)||(objects>1)){console.error("Wrong type of parameters");return};
+	if(![1,2,4].includes(inputs.length)){console.error("invalid length of array, expected 1,2 or 4 elements");return};
 	let container = map.getContainer();
 	let StartPoint=null,Dragging=false,Pressing=false;Rectangle=null;
 	if(config===undefined){config=new Object()};
@@ -125,46 +126,40 @@ function LeafletSelectArea(map,a,b,c){
 	function EndDrawing(){StartPoint=null;Pressing=false;Dragging=false;updateInputs()};
 	function updateInputs(){
 		if((inputs===undefined)||(Rectangle===null)){return};
-		let a = ["","","",""];
 		for(let i=0;i<inputs.length;i++){
-			if(inputs[i] instanceof HTMLInputElement){
-				a[i] = "value";
+			let a="",b,c=1;
+			if(inputs[i] instanceof HTMLElement){a="innerHTML"};
+			if(inputs[i] instanceof HTMLInputElement){a="value"};
+			if(inputs.length===2){c=2};
+			if(fix===undefined){
+				if(a!==""){
+					b = "";
+					for(let j=0;j<4/inputs.length;j++){
+						b = b+`(${Rectangle["_latlngs"][0][c*i+j]["lat"]}, ${Rectangle["_latlngs"][0][c*i+j]["lng"]}) `;
+					}
+					inputs[i][a] = b;
+				} else {
+					b = [];
+					for(let j=0;j<4/inputs.length;j++){
+						b.push([Rectangle["_latlngs"][0][c*i+j]["lat"],Rectangle["_latlngs"][0][c*i+j]["lng"]]);
+					}
+					inputs[i] = b;
+				}
 			} else {
-				a[i] = "innerHTML";
+				if(a[i]!==""){
+					b = "";
+					for(let j=0;j<4/inputs.length;j++){
+						b = b+`(${Rectangle["_latlngs"][0][c*i+j]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][c*i+j]["lng"].toFixed(fix)})`;
+					}
+					inputs[i][a] = b;
+				} else {
+					b = [];
+					for(let j=0;j<4/inputs.length;j++){
+						b.push([Rectangle["_latlngs"][0][c*i+j]["lat"].toFixed(fix),Rectangle["_latlngs"][0][c*i+j]["lng"].toFixed(fix)]);
+					}
+					inputs[i] = b;
+				}
 			}
-		}
-		switch(inputs.length){
-			case 1:
-				if(fix===undefined){
-					inputs[0][a[0]] = `(${Rectangle["_latlngs"][0][0]["lat"]}, ${Rectangle["_latlngs"][0][0]["lng"]}), (${Rectangle["_latlngs"][0][1]["lat"]}, ${Rectangle["_latlngs"][0][1]["lng"]}), (${Rectangle["_latlngs"][0][2]["lat"]}, ${Rectangle["_latlngs"][0][2]["lng"]}), (${Rectangle["_latlngs"][0][3]["lat"]}, ${Rectangle["_latlngs"][0][3]["lng"]})`;
-				} else {
-					inputs[0][a[0]] = `(${Rectangle["_latlngs"][0][0]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][0]["lng"].toFixed(fix)}), (${Rectangle["_latlngs"][0][1]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][1]["lng"].toFixed(fix)}), (${Rectangle["_latlngs"][0][2]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][2]["lng"].toFixed(fix)}), (${Rectangle["_latlngs"][0][3]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][3]["lng"].toFixed(fix)})`;
-				}
-				break;
-			case 2:
-				if(fix===undefined){
-					inputs[0][a[0]] = `(${Rectangle["_latlngs"][0][0]["lat"]}, ${Rectangle["_latlngs"][0][0]["lng"]}), (${Rectangle["_latlngs"][0][1]["lat"]}, ${Rectangle["_latlngs"][0][1]["lng"]})`;
-					inputs[1][a[1]] = `(${Rectangle["_latlngs"][0][2]["lat"]}, ${Rectangle["_latlngs"][0][2]["lng"]}), (${Rectangle["_latlngs"][0][3]["lat"]}, ${Rectangle["_latlngs"][0][3]["lng"]})`;
-				} else {
-					inputs[0][a[0]] = `(${Rectangle["_latlngs"][0][0]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][0]["lng"].toFixed(fix)}), (${Rectangle["_latlngs"][0][1]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][1]["lng"].toFixed(fix)})`;
-					inputs[1][a[1]] = `(${Rectangle["_latlngs"][0][2]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][2]["lng"].toFixed(fix)}), (${Rectangle["_latlngs"][0][3]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][3]["lng"].toFixed(fix)})`;
-				}
-				break;
-			case 4:
-				if(fix===undefined){
-					inputs[0][a[0]] = `(${Rectangle["_latlngs"][0][0]["lat"]}, ${Rectangle["_latlngs"][0][0]["lng"]})`;
-					inputs[1][a[1]] = `(${Rectangle["_latlngs"][0][1]["lat"]}, ${Rectangle["_latlngs"][0][1]["lng"]})`;
-					inputs[2][a[2]] = `(${Rectangle["_latlngs"][0][2]["lat"]}, ${Rectangle["_latlngs"][0][2]["lng"]})`;
-					inputs[3][a[3]] = `(${Rectangle["_latlngs"][0][3]["lat"]}, ${Rectangle["_latlngs"][0][3]["lng"]})`;
-				} else {
-					inputs[0][a[0]] = `(${Rectangle["_latlngs"][0][0]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][0]["lng"].toFixed(fix)})`;
-					inputs[1][a[1]] = `(${Rectangle["_latlngs"][0][1]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][1]["lng"].toFixed(fix)})`;
-					inputs[2][a[2]] = `(${Rectangle["_latlngs"][0][2]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][2]["lng"].toFixed(fix)})`;
-					inputs[3][a[3]] = `(${Rectangle["_latlngs"][0][3]["lat"].toFixed(fix)}, ${Rectangle["_latlngs"][0][3]["lng"].toFixed(fix)})`;
-				}
-				break;
-			default:
-				console.error("invalid length of array, expected 1,2 or 4 elements");
 		}
 	}
 }
