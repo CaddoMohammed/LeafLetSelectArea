@@ -137,30 +137,25 @@ function LeafletSelectArea(map,a,b,c){
 	}
 	function updateInputs(){
 		if((inputs===undefined)||(map["LeafletSelectArea"]["Rectangle"]===null)){return};
-		let a = 0;
-		for(let i in map["LeafletSelectArea"]["Rectangle"]["_bounds"]){
+		let a = ["StartPoint","EndPoint"];
+		for(let i=0;i<inputs.length;i++){
 			for(let j of ["lat","lng"]){
 				let b = "";
-				if(inputs[a][j] instanceof HTMLElement){b="innerHTML"};
-				if(inputs[a][j] instanceof HTMLInputElement){b="value"};
+				if(inputs[i][j] instanceof HTMLElement){b="innerHTML"};
+				if(inputs[i][j] instanceof HTMLInputElement){b="value"};
 				if(fix===undefined){
 					if(b!==""){
-						inputs[a][j][b] = map["LeafletSelectArea"]["Rectangle"]["_bounds"][i][j];
+						inputs[i][j][b] = map["LeafletSelectArea"]["Status"][a[i]][j];
 					} else {
-						inputs[a][j] = map["LeafletSelectArea"]["Rectangle"]["_bounds"][i][j];
+						inputs[i][j] = map["LeafletSelectArea"]["Status"][a[i]][j];
 					}
 				} else {
 					if(b!==""){
-						inputs[a][j][b] = map["LeafletSelectArea"]["Rectangle"]["_bounds"][i][j].toFixed(fix);
+						inputs[i][j][b] = map["LeafletSelectArea"]["Status"][a[i]][j].toFixed(fix);
 					} else {
-						inputs[a][j] = map["LeafletSelectArea"]["Rectangle"]["_bounds"][i][j].toFixed(fix);;
+						inputs[i][j] = map["LeafletSelectArea"]["Status"][a[i]][j].toFixed(fix);;
 					}
 				}
-			}
-			if(a<1){
-				a = a+1;
-			} else {
-				break;
 			}
 		}
 	}
@@ -299,115 +294,112 @@ function LeafletSetMarkers(map,coordenadas){
 	SetMarker(EndPoint,coordenadas[1]);
 }
 function LeafletSetConfig(map,config){
-	if(map["LeafletSelectArea"]===undefined){
-		map["LeafletSelectArea"] = {
-			"Marker":{
-				"sort":false,
-				"enable":{
-					"NorthEast":true,
-					"NorthWest":true,
-					"SouthWest":true,
-					"SouthWest":true
-				},
-				"width":24,
-				"height":24,
-				"color":"#000000",
-				"margin":{
-					"NorthEast":[23,1],
-					"NorthWest":[1,1],
-					"SouthEast":[23,23],
-					"SouthWest":[1,23]
-				},
-				"icon":{
-					"NorthEast":function(color){
-						let icon =
-							`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
-								<div style="width:90%; height:10%; background-color:${color}; margin-bottom:auto;"></div>
-								<div style="width:10%; height:100%; background-color:${color};"></div>
-							</div>`;
-						return icon;
-					},
-					"NorthWest":function(color){
-						let icon = 
-							`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
-								<div style="width:10%; height:100%; background-color:${color};"></div>
-								<div style="width:90%; height:10%; background-color:${color}; margin-bottom:auto;"></div>
-							</div>`;
-						return icon;
-					},
-					"SouthEast":function(color){
-						let icon =
-							`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
-								<div style="width:90%; height:10%; background-color:${color}; margin-top:auto;"></div>
-								<div style="width:10%; height:100%; background-color:${color};"></div>
-							</div>`;
-						return icon;
-					},
-					"SouthWest":function(color){
-						let icon =
-							`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
-								<div style="width:10%; height:100%; background-color:${color};"></div>
-								<div style="width:90%; height:10%; background-color:${color}; margin-top:auto;"></div>
-							</div>`;
-						return icon;
-					}
-				}
+	if(map["LeafletSelectArea"]!==undefined){return};
+	map["LeafletSelectArea"] = {
+		"Marker":{
+			"sort":false,
+			"enable":{
+				"NorthEast":true,
+				"NorthWest":true,
+				"SouthWest":true,
+				"SouthWest":true
 			},
-			"Status":{
-				"Active":true,
-				"Pressing":false,
-				"Dragging":false,
-				"StartPoint":null,
-				"EndPoint":null
+			"width":24,
+			"height":24,
+			"color":"#000000",
+			"margin":{
+				"NorthEast":[23,1],
+				"NorthWest":[1,1],
+				"SouthEast":[23,23],
+				"SouthWest":[1,23]
 			},
-			"weight":1,
-			"Active":true,
-			"color":"#0000FF",
-			"Rectangle":null,
-			"Btn":{
-				"position":"topright",
-				"select":{
-					"cursor":"crosshair",
-					"title":"",
-					"icon":
-						`<svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 16 16" style="margin:auto;">
-							<path d="M2.5 0q-.25 0-.487.048l.194.98A1.5 1.5 0 0 1 2.5 1h.458V0zm2.292 0h-.917v1h.917zm1.833 0h-.917v1h.917zm1.833 0h-.916v1h.916zm1.834 0h-.917v1h.917zm1.833 0h-.917v1h.917zM13.5 0h-.458v1h.458q.151 0 .293.029l.194-.981A2.5 2.5 0 0 0 13.5 0m2.079 1.11a2.5 2.5 0 0 0-.69-.689l-.556.831q.248.167.415.415l.83-.556zM1.11.421a2.5 2.5 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415zM16 2.5q0-.25-.048-.487l-.98.194q.027.141.028.293v.458h1zM.048 2.013A2.5 2.5 0 0 0 0 2.5v.458h1V2.5q0-.151.029-.293zM0 3.875v.917h1v-.917zm16 .917v-.917h-1v.917zM0 5.708v.917h1v-.917zm16 .917v-.917h-1v.917zM0 7.542v.916h1v-.916zm15 .916h1v-.916h-1zM0 9.375v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .916v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .917v.458q0 .25.048.487l.98-.194A1.5 1.5 0 0 1 1 13.5v-.458zm16 .458v-.458h-1v.458q0 .151-.029.293l.981.194Q16 13.75 16 13.5M.421 14.89c.183.272.417.506.69.689l.556-.831a1.5 1.5 0 0 1-.415-.415zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373Q2.25 16 2.5 16h.458v-1H2.5q-.151 0-.293-.029zM13.5 16q.25 0 .487-.048l-.194-.98A1.5 1.5 0 0 1 13.5 15h-.458v1zm-9.625 0h.917v-1h-.917zm1.833 0h.917v-1h-.917zm1.834-1v1h.916v-1zm1.833 1h.917v-1h-.917zm1.833 0h.917v-1h-.917z"/>
-						</svg>`
+			"icon":{
+				"NorthEast":function(color){
+					let icon =
+						`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
+							<div style="width:90%; height:10%; background-color:${color}; margin-bottom:auto;"></div>
+							<div style="width:10%; height:100%; background-color:${color};"></div>
+						</div>`;
+					return icon;
 				},
-				"pan":{
-					"cursor":"default",
-					"title":"",
-					"icon":
-						`<svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 16 16" style="flex-grow:1;">
-							<path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8"/>
-						</svg>`
-				}
-			},
-			"Label":{
-				"NorthEast":{
-					"always visible":false,
-					"title":"",
-					"position":"top"
+				"NorthWest":function(color){
+					let icon = 
+						`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
+							<div style="width:10%; height:100%; background-color:${color};"></div>
+							<div style="width:90%; height:10%; background-color:${color}; margin-bottom:auto;"></div>
+						</div>`;
+					return icon;
 				},
-				"NorthWest":{
-					"always visible":false,
-					"title":"",
-					"position":"top"
+				"SouthEast":function(color){
+					let icon =
+						`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
+							<div style="width:90%; height:10%; background-color:${color}; margin-top:auto;"></div>
+							<div style="width:10%; height:100%; background-color:${color};"></div>
+						</div>`;
+					return icon;
 				},
-				"SouthEast":{
-					"always visible":false,
-					"title":"",
-					"position":"bottom"
-				},
-				"SouthWest":{
-					"always visible":false,
-					"title":"",
-					"position":"bottom"
+				"SouthWest":function(color){
+					let icon =
+						`<div style="display:flex; flex-direction:row; flex-wrap:nowrap; width:100%; height:100%;">
+							<div style="width:10%; height:100%; background-color:${color};"></div>
+							<div style="width:90%; height:10%; background-color:${color}; margin-top:auto;"></div>
+						</div>`;
+					return icon;
 				}
 			}
+		},
+		"Status":{
+			"Active":true,
+			"Pressing":false,
+			"Dragging":false,
+			"StartPoint":null,
+			"EndPoint":null
+		},
+		"weight":1,
+		"Active":true,
+		"color":"#0000FF",
+		"Rectangle":null,
+		"Btn":{
+			"position":"topright",
+			"select":{
+				"cursor":"crosshair",
+				"title":"",
+				"icon":
+					`<svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 16 16" style="margin:auto;">
+						<path d="M2.5 0q-.25 0-.487.048l.194.98A1.5 1.5 0 0 1 2.5 1h.458V0zm2.292 0h-.917v1h.917zm1.833 0h-.917v1h.917zm1.833 0h-.916v1h.916zm1.834 0h-.917v1h.917zm1.833 0h-.917v1h.917zM13.5 0h-.458v1h.458q.151 0 .293.029l.194-.981A2.5 2.5 0 0 0 13.5 0m2.079 1.11a2.5 2.5 0 0 0-.69-.689l-.556.831q.248.167.415.415l.83-.556zM1.11.421a2.5 2.5 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415zM16 2.5q0-.25-.048-.487l-.98.194q.027.141.028.293v.458h1zM.048 2.013A2.5 2.5 0 0 0 0 2.5v.458h1V2.5q0-.151.029-.293zM0 3.875v.917h1v-.917zm16 .917v-.917h-1v.917zM0 5.708v.917h1v-.917zm16 .917v-.917h-1v.917zM0 7.542v.916h1v-.916zm15 .916h1v-.916h-1zM0 9.375v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .916v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .917v.458q0 .25.048.487l.98-.194A1.5 1.5 0 0 1 1 13.5v-.458zm16 .458v-.458h-1v.458q0 .151-.029.293l.981.194Q16 13.75 16 13.5M.421 14.89c.183.272.417.506.69.689l.556-.831a1.5 1.5 0 0 1-.415-.415zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373Q2.25 16 2.5 16h.458v-1H2.5q-.151 0-.293-.029zM13.5 16q.25 0 .487-.048l-.194-.98A1.5 1.5 0 0 1 13.5 15h-.458v1zm-9.625 0h.917v-1h-.917zm1.833 0h.917v-1h-.917zm1.834-1v1h.916v-1zm1.833 1h.917v-1h-.917zm1.833 0h.917v-1h-.917z"/>
+					</svg>`
+			},
+			"pan":{
+				"cursor":"default",
+				"title":"",
+				"icon":
+					`<svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 16 16" style="flex-grow:1;">
+						<path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8"/>
+					</svg>`
+			}
+		},
+		"Label":{
+			"NorthEast":{
+				"always visible":false,
+				"title":"",
+				"position":"top"
+			},
+			"NorthWest":{
+				"always visible":false,
+				"title":"",
+				"position":"top"
+			},
+			"SouthEast":{
+				"always visible":false,
+				"title":"",
+				"position":"bottom"
+			},
+			"SouthWest":{
+				"always visible":false,
+				"title":"",
+				"position":"bottom"
+			}
 		}
-	} else {
-		return;
 	}
 	SetConfig(map["LeafletSelectArea"],config);
 	function SetConfig(x,y){
