@@ -137,7 +137,12 @@ function LeafletSelectArea(map,a,b,c){
 	}
 	function updateInputs(){
 		if((inputs===undefined)||(map["LeafletSelectArea"]["Rectangle"]===null)){return};
-		let a = ["StartPoint","EndPoint"];
+		let a;
+		if(map["LeafletSelectArea"]["Marker"]["sort"]===false){
+			a = [map["LeafletSelectArea"]["Status"]["StartPoint"],map["LeafletSelectArea"]["Status"]["EndPoint"]];
+		} else {
+			a = [map["LeafletSelectArea"]["Rectangle"]["_bounds"]["_northEast"],map["LeafletSelectArea"]["Rectangle"]["_bounds"]["_southWest"]];
+		}
 		for(let i=0;i<inputs.length;i++){
 			for(let j of ["lat","lng"]){
 				let b = "";
@@ -145,15 +150,15 @@ function LeafletSelectArea(map,a,b,c){
 				if(inputs[i][j] instanceof HTMLInputElement){b="value"};
 				if(fix===undefined){
 					if(b!==""){
-						inputs[i][j][b] = map["LeafletSelectArea"]["Status"][a[i]][j];
+						inputs[i][j][b] = a[i][j];
 					} else {
-						inputs[i][j] = map["LeafletSelectArea"]["Status"][a[i]][j];
+						inputs[i][j] = a[i][j];
 					}
 				} else {
 					if(b!==""){
-						inputs[i][j][b] = map["LeafletSelectArea"]["Status"][a[i]][j].toFixed(fix);
+						inputs[i][j][b] = a[i][j].toFixed(fix);
 					} else {
-						inputs[i][j] = map["LeafletSelectArea"]["Status"][a[i]][j].toFixed(fix);;
+						inputs[i][j] = a[i][j].toFixed(fix);;
 					}
 				}
 			}
