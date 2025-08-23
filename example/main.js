@@ -47,7 +47,7 @@ function validation(x){
 	const a = Inputs.findIndex(obj => Object.values(obj).some(input => input["id"]===x));
   	if(a===-1){return};
   	const b = Object.entries(Inputs[a]).find(([k,input]) => input["id"]===x)[0];
-	const Max=[90,180],Name=["latitud","longitud"];
+	const Max={"lat":90,"lng":180},Name={"lat":"latitud","lng":"longitud"};
 	if(isNaN(Inputs[a][b]["value"])){
 		Inputs[a][b]["className"] = "block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600 peer";
 		ErrorInputs[a][b]["innerHTML"] = "Solamente números";
@@ -56,9 +56,9 @@ function validation(x){
 	} else {
 		error[a][b] = false;
 	}
-	if(Math.abs(Inputs[a][b]["value"])>Max[a][b]){
+	if(Math.abs(Inputs[a][b]["value"])>Max[b]){
 		Inputs[a][b]["className"] = "block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 appearance-none dark:text-white dark:border-red-500 border-red-600 dark:focus:border-red-500 focus:outline-none focus:ring-0 focus:border-red-600 peer";
-		ErrorInputs[a][b]["innerHTML"] = `La ${Name[a][b]} debe ser solo desde -${Max[a][b]}° hasta ${Max[a][b]}°`;
+		ErrorInputs[a][b]["innerHTML"] = `La ${Name[b]} debe ser solo desde -${Max[b]}° hasta ${Max[b]}°`;
 		error[a][b] = true;
 		return;
 	} else {
