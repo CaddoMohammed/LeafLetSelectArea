@@ -134,6 +134,10 @@ function LeafletSelectArea(map,a,b,c){
 	function EndDrawing(){
 		x["Pressing"] = false;
 		x["Dragging"] = false;
+		if(map["LeafletSelectArea"]["Marker"]["sort"]===true){
+			x["StartPoint"] = map["LeafletSelectArea"]["Rectangle"]["_bounds"]["_northEast"];
+			x["EndPoint"] = map["LeafletSelectArea"]["Rectangle"]["_bounds"]["_southWest"];
+		}
 	}
 	function updateInputs(){
 		if((inputs===undefined)||(map["LeafletSelectArea"]["Rectangle"]===null)){return};
@@ -306,7 +310,7 @@ function LeafletSetConfig(map,config){
 			"enable":{
 				"NorthEast":true,
 				"NorthWest":true,
-				"SouthWest":true,
+				"SouthEast":true,
 				"SouthWest":true
 			},
 			"width":24,
