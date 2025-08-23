@@ -17,48 +17,50 @@
 	<body class="flex flex-col h-dvh relative w-screen">
 		<main class="flex grow h-full">
 			<section id="map" class="relative overflow-auto z2" style="cursor:default;"></section>
-			<aside class="flex flex-col overflow-auto bg-white dark:bg-gray-900 overflow-auto z1">
-				<div class="flex flex-col m-1 p-3">
-					<div class="flex flex-wrap">
-						<div class="flex flex-wrap grow min-w-[200px]">
-							<div class="grow min-w-[200px] m-2">
-								<div class="relative">
-									<input type="text" id="corner-2" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" disabled/>
-									<label for="corner-2" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
-										Esquina superior izquierda <em>(lat,lon)</em>
-									</label>
-								</div>
-								<p id="error-corner-2" class="mt-2 text-xs text-red-600 dark:text-red-400"></p>
+			<aside class="flex flex-col justify-start overflow-auto bg-white dark:bg-gray-900 overflow-auto pt-3 z1">
+				<div class="flex flex-col justify-start px-3">
+					<p id="corner-1" class="m-2 text-gray-900 dark:text-white">Coordenadas de la esquina superior</p>
+					<div class="flex flex-wrap min-w-[220px]">
+						<div class="grow min-w-[100px] m-2">
+							<div class="relative">
+								<input type="text" id="lat-max" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
+								<label for="lat-max" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+									Latitud
+								</label>
 							</div>
-							<div class="grow min-w-[200px] m-2">
-								<div class="relative">
-									<input type="text" id="corner-3" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" disabled/>
-									<label for="corner-3" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
-										Esquina superior derecha <em>(lat,lon)</em>
-									</label>
-								</div>
-								<p id="error-corner-3" class="mt-2 text-xs text-red-600 dark:text-red-400"></p>
-							</div>
+							<p id="error-lat-max" class="mt-2 text-xs text-red-600 dark:text-red-400"></p>
 						</div>
-						<div class="flex flex-wrap grow min-w-[200px]">
-							<div class="grow min-w-[200px] m-2">
-								<div class="relative">
-									<input type="text" id="corner-1" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" disabled/>
-									<label for="corner-1" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
-										Esquina inferior izquierda <em>(lat,lon)</em>
-									</label>
-								</div>
-								<p id="error-corner-1" class="mt-2 text-xs text-red-600 dark:text-red-400"></p>
+						<div class="grow min-w-[100px] m-2">
+							<div class="relative">
+								<input type="text" id="lng-max" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
+								<label for="lng-max" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+									Longitud
+								</label>
 							</div>
-							<div class="grow min-w-[200px] m-2">
-								<div class="relative">
-									<input type="text" id="corner-4" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" disabled/>
-									<label for="corner-4" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
-										Esquina inferior derecha <em>(lat,lon)</em>
-									</label>
-								</div>
-								<p id="error-corner-4" class="mt-2 text-xs text-red-600 dark:text-red-400"></p>
+							<p id="error-lng-max" class="mt-2 text-xs text-red-600 dark:text-red-400"></p>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-col justify-start px-3">
+					<p id="corner-2" class="m-2 text-gray-900 dark:text-white">Coordenadas de la esquina inferior</p>
+					<div class="flex grow flex-wrap min-w-[200px]">
+						<div class="grow min-w-[100px] m-2">
+							<div class="relative">
+								<input type="text" id="lat-min" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
+								<label for="lat-min" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+									Latitud
+								</label>
 							</div>
+							<p id="error-lat-min" class="mt-2 text-xs text-red-600 dark:text-red-400"></p>
+						</div>
+						<div class="grow min-w-[100px] m-2">
+							<div class="relative">
+								<input type="text" id="lng-min" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
+								<label for="lng-min" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+									Longitud
+								</label>
+							</div>
+							<p id="error-lng-min" class="mt-2 text-xs text-red-600 dark:text-red-400 min-h-[1rem]"></p>
 						</div>
 					</div>
 				</div>
