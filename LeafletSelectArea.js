@@ -126,6 +126,15 @@ function LeafletSelectArea(map,a,b,c){
 		} else {
 			const bounds = L.latLngBounds(x["StartPoint"],x["EndPoint"]);
 			map["LeafletSelectArea"]["Rectangle"].setBounds(bounds);
+			if(map["LeafletSelectArea"]["max area"]>0){
+				let base =  x["EndPoint"]["lng"]-x["StartPoint"]["lng"];
+				let altura =  x["EndPoint"]["lat"]-x["StartPoint"]["lat"];
+				if(Math.abs(base*altura)>map["LeafletSelectArea"]["max area"]){
+					map["LeafletSelectArea"]["Rectangle"].setStyle({color:map["LeafletSelectArea"]["error color"]});
+				} else {
+					map["LeafletSelectArea"]["Rectangle"].setStyle({color:map["LeafletSelectArea"]["color"],weight:map["LeafletSelectArea"]["weight"]});
+				}
+			}
 			LeafletSetMarkers(map,[x["StartPoint"],x["EndPoint"]]);
 			clearTimeout(timer);
 			timer = setTimeout(() => updateInputs(),100);
@@ -304,6 +313,24 @@ function LeafletSetMarkers(map,coordenadas){
 }
 function LeafletSetConfig(map,config){
 	if(map["LeafletSelectArea"]!==undefined){return};
+	function SetConfig(x,y){
+		for(let i in y){
+			if(i==="Status"){continue};
+			if(x[i]===undefined){continue};
+			if(typeof(y[i])!=="object"){
+				x[i] = y[i];
+				continue;
+			}
+			if(Array.isArray(y[i])){
+				x[i] = y[i];
+				continue;
+			}
+			if(typeof(y[i])==="object"){
+				SetConfig(x[i],y[i]);
+				continue;
+			}
+		}
+	}
 	map["LeafletSelectArea"] = {
 		"Marker":{
 			"sort":false,
@@ -366,7 +393,9 @@ function LeafletSetConfig(map,config){
 		},
 		"weight":1,
 		"Active":true,
-		"color":"#0000FF",
+		"color":"#0000ff",
+		"error color":"#ff008cff",
+		"max area":0,
 		"Rectangle":null,
 		"Btn":{
 			"position":"topright",
@@ -411,22 +440,4 @@ function LeafletSetConfig(map,config){
 		}
 	}
 	SetConfig(map["LeafletSelectArea"],config);
-	function SetConfig(x,y){
-		for(let i in y){
-			if(i==="Status"){continue};
-			if(x[i]===undefined){continue};
-			if(typeof(y[i])!=="object"){
-				x[i] = y[i];
-				continue;
-			}
-			if(Array.isArray(y[i])){
-				x[i] = y[i];
-				continue;
-			}
-			if(typeof(y[i])==="object"){
-				SetConfig(x[i],y[i]);
-				continue;
-			}
-		}
-	}
 }
